@@ -1,0 +1,78 @@
+﻿@model IEnumerable<HospitalDoctoerRecord.MVC.Models.DoctorModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("SaveAndUpdate", "Doctors")" class="btn btn-default"><i class="glyphicon glyphicon-plus"></i> Create</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-bordered" style="background-color:bisque">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Speciality)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qualification)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mobile)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Speciality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qualification)
+            </td>
+            <td>
+                <a href="@Url.Action("SaveAndUpdate", "Doctors", new { id = item.ID })" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
+                <a onclick="Delete(@item.ID)" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i>Delete</a>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+    <script>
+        $(function () {
+            var SuccessMessage = '@TempData["SuccessMessage"]';
+            if (SuccessMessage != '') {
+                alertify.success(SuccessMessage);
+            }
+        });
+        function Delete(id) {
+            alertify.confirm('WebApi CRUD Operation', 'Are you sure you want to delete this record?', function () {
+                window.location.href = '@Url.Action("Delete","Doctors")/'  +id
+            }, null);
+        }
+    </script>
+}
+
